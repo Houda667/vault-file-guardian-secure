@@ -27,8 +27,8 @@ const Index = () => {
   const handlePasswordSubmit = async (password: string) => {
     if (!selectedFile) {
       toast({
-        title: "No file selected",
-        description: "Please select a file first.",
+        title: "Aucun fichier sélectionné",
+        description: "Veuillez d'abord sélectionner un fichier.",
         variant: "destructive"
       });
       return;
@@ -42,9 +42,13 @@ const Index = () => {
         const fileId = uuidv4();
         setCurrentFileId(fileId);
 
-        // Hash the password (for security)
-        const hashedPassword = await bcrypt.hash(password);
+        // Get the current user
+        const { data: { user } } = await supabase.auth.getUser();
         
+        if (!user) {
+          throw new Error("Utilisateur non authentifié");
+        }
+
         // Store file information in Supabase
         const { error: fileError } = await supabase
           .from('encrypted_files')
@@ -53,9 +57,16 @@ const Index = () => {
             file_name: selectedFile.name,
             file_size: selectedFile.size,
             file_type: selectedFile.type,
+            user_id: user.id
           });
           
-        if (fileError) throw fileError;
+        if (fileError) {
+          console.error("Erreur lors de l'enregistrement du fichier:", fileError);
+          throw fileError;
+        }
+        
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password);
         
         // Store the hashed password in Supabase
         const { error: passwordError } = await supabase
@@ -65,34 +76,36 @@ const Index = () => {
             password_hash: hashedPassword
           });
           
-        if (passwordError) throw passwordError;
+        if (passwordError) {
+          console.error("Erreur lors de l'enregistrement du mot de passe:", passwordError);
+          throw passwordError;
+        }
         
         toast({
-          title: "File encrypted successfully",
-          description: "Your file has been securely encrypted and the password has been stored securely.",
+          title: "Fichier chiffré avec succès",
+          description: "Votre fichier a été chiffré en toute sécurité et le mot de passe a été stocké de manière sécurisée.",
           variant: "default"
         });
       } else {
-        // For decryption, we would validate against stored passwords
-        // This would be implemented in a real application
+        // Pour le déchiffrement, nous validerions par rapport aux mots de passe stockés
         toast({
-          title: "File decrypted successfully",
-          description: "Your file has been securely decrypted.",
+          title: "Fichier déchiffré avec succès",
+          description: "Votre fichier a été déchiffré en toute sécurité.",
           variant: "default"
         });
       }
       
-      // Simulate processing time
+      // Simuler le temps de traitement
       setTimeout(() => {
         setIsProcessing(false);
         setIsProcessed(true);
       }, 1500);
       
     } catch (error: any) {
-      console.error("Error processing file:", error);
+      console.error("Erreur lors du traitement du fichier:", error);
       toast({
-        title: "Error processing file",
-        description: error.message || "An unexpected error occurred",
+        title: "Erreur lors du traitement du fichier",
+        description: error.message || "Une erreur inattendue s'est produite",
         variant: "destructive"
       });
       setIsProcessing(false);
@@ -148,9 +161,9 @@ const Index = () => {
         </div>
         
         <footer className="mt-16 text-center text-sm text-muted-foreground">
-          <p>© 2025 Vault File Guardian. All files are processed securely.</p>
+          <p>© 2025 Vault File Guardian. Tous les fichiers sont traités en toute sécurité.</p>
           <p className="mt-1">
-            For secure password storage, your passwords are safely stored in the database.
+            Pour un stockage sécurisé des mots de passe, vos mots de passe sont stockés en toute sécurité dans la base de données.
           </p>
         </footer>
       </div>

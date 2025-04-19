@@ -23,7 +23,7 @@ export async function hash(password: string): Promise<string> {
  * Verify a password against a hash (simplified version)
  * In a real app, use bcrypt or another proper hashing algorithm
  */
-export async function verify(password: string, hash: string): Promise<boolean> {
-  const generatedHash = await this.hash(password);
-  return generatedHash === hash;
+export async function verify(password: string, hashedPassword: string): Promise<boolean> {
+  const generatedHash = await hash(password);
+  return generatedHash === hashedPassword;
 }
