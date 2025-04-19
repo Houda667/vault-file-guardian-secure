@@ -1,23 +1,23 @@
 
 import React from 'react';
-import { Shield, Lock } from 'lucide-react';
+import Image from '@/components/ui/image';
 
 const SecurityHeader: React.FC = () => {
   return (
-    <div className="text-center mb-8">
-      <div className="inline-flex items-center justify-center p-2 bg-primary/10 rounded-full mb-4">
-        <Lock className="h-8 w-8 text-primary" />
+    <div className="text-center mb-12">
+      <div className="relative w-16 h-16 mx-auto mb-6">
+        <Image 
+          src="/lovable-uploads/df1cb348-4911-4e1b-b134-b2dddd750284.png"
+          alt="Secret File Keeper Logo"
+          className="w-full h-full object-contain animate-pulse"
+        />
       </div>
-      <h1 className="text-3xl font-bold mb-2">Vault File Guardian</h1>
-      <p className="text-muted-foreground max-w-md mx-auto">
-        Secure file encryption and decryption with professional-grade protection
+      <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-blue-400 bg-clip-text text-transparent">
+        Secret File Keeper
+      </h1>
+      <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-center px-4">
+        Un outil de chiffrement de fichiers sécurisé qui protège vos données confidentielles avec un chiffrement conforme aux normes de l'industrie. Toutes les opérations sont exécutées dans le cloud de manière sécurisée.
       </p>
-      <div className="flex justify-center mt-4">
-        <div className="inline-flex items-center text-xs text-secure-success bg-secure-success/10 px-3 py-1 rounded-full">
-          <Shield className="h-3 w-3 mr-1" />
-          <span>Advanced encryption standards</span>
-        </div>
-      </div>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,21 +62,24 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Custom security-themed colors
 				secure: {
-					DEFAULT: '#0a2463', // Deep blue for security theme
-					light: '#3e92cc',   // Lighter blue for accents
-					dark: '#051C47',    // Darker blue for emphasis
-					success: '#2e7d32', // Green for successful operations
-					warning: '#ff9800', // Orange for warnings
-					danger: '#d32f2f',  // Red for critical actions
-					surface: '#f8f9fa', // Light background for content areas
+					DEFAULT: '#0a2463',
+					light: '#3e92cc',
+					dark: '#051C47',
+					success: '#2e7d32',
+					warning: '#ff9800',
+					danger: '#d32f2f',
+					surface: '#f8f9fa',
 				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			backgroundImage: {
+				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -107,6 +109,10 @@ export default {
 				'slide-up': {
 					'0%': { transform: 'translateY(10px)', opacity: '0' },
 					'100%': { transform: 'translateY(0)', opacity: '1' },
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' },
 				}
 			},
 			animation: {
@@ -115,6 +121,7 @@ export default {
 				'pulse-slow': 'pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
 				'fade-in': 'fade-in 0.3s ease-out',
 				'slide-up': 'slide-up 0.4s ease-out',
+				'float': 'float 3s ease-in-out infinite',
 			}
 		}
 	},
