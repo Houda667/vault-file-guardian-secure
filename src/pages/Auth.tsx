@@ -1,9 +1,10 @@
+
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { Mail, Lock, User } from "lucide-react";
+import { Mail, Lock, ShieldCheck } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 const Auth = () => {
@@ -54,22 +55,20 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 to-blue-500 p-4">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(40deg,#6366f1,#8b5cf6,#d946ef)] opacity-20" />
-        <div className="absolute inset-0 animate-pulse-slow mix-blend-overlay bg-[radial-gradient(circle,white_1px,transparent_1px)] bg-repeat bg-[length:20px_20px]" />
-      </div>
-
-      <Card className="w-full max-w-md p-8 bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl transform hover:scale-[1.01] transition-all duration-300">
+    <div className="min-h-screen flex items-center justify-center bg-white p-4 overflow-hidden relative">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#000000_1px,transparent_1px)] bg-[size:16px_16px] z-0" />
+      
+      <Card className="relative z-10 w-full max-w-md p-8 bg-white border border-gray-100 shadow-2xl rounded-2xl transform transition-all duration-300 hover:scale-[1.01] animate-fade-in">
         <div className="space-y-6">
           <div className="text-center space-y-2 mb-8">
-            <div className="inline-block p-3 rounded-full bg-white/10 backdrop-blur-sm mb-4 animate-bounce-slow">
-              <Lock className="w-8 h-8 text-white" />
+            <div className="inline-block p-4 rounded-full bg-primary/10 mb-4 animate-bounce-slow">
+              <ShieldCheck className="w-10 h-10 text-primary" />
             </div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold text-gray-900">
               {isSignUp ? "Créer un compte" : "Connexion"}
             </h1>
-            <p className="text-white/70">
+            <p className="text-gray-600">
               {isSignUp
                 ? "Rejoignez-nous pour sécuriser vos fichiers"
                 : "Connectez-vous pour accéder à vos fichiers sécurisés"}
@@ -78,31 +77,31 @@ const Auth = () => {
 
           <div className="space-y-4">
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <Input
                 type="email"
                 placeholder="Votre email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-white/40 focus:ring-white/40"
+                className="pl-10 border-gray-300 focus:border-primary focus:ring-primary/50"
               />
             </div>
 
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <Input
                 type="password"
                 placeholder="Votre mot de passe"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-white/40 focus:ring-white/40"
+                className="pl-10 border-gray-300 focus:border-primary focus:ring-primary/50"
               />
             </div>
 
             <Button
               onClick={isSignUp ? handleSignUp : handleSignIn}
               disabled={loading}
-              className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-[1.02] focus:ring-2 focus:ring-white/50 disabled:opacity-50"
+              className="w-full bg-primary text-white hover:bg-primary/90 transition-colors duration-300 transform hover:scale-[1.02] focus:ring-2 focus:ring-primary/50 disabled:opacity-50"
             >
               {loading ? (
                 <div className="flex items-center justify-center">
@@ -125,14 +124,14 @@ const Auth = () => {
                 </div>
               ) : isSignUp ? (
                 "Créer un compte"
-                ) : (
+              ) : (
                 "Se connecter"
               )}
             </Button>
 
             <button
               onClick={() => setIsSignUp(!isSignUp)}
-              className="w-full text-white/70 hover:text-white text-sm transition-colors mt-4"
+              className="w-full text-primary/70 hover:text-primary text-sm transition-colors mt-4"
             >
               {isSignUp
                 ? "Déjà un compte ? Connectez-vous"
@@ -146,3 +145,4 @@ const Auth = () => {
 };
 
 export default Auth;
+
