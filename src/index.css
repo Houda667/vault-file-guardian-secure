@@ -99,7 +99,7 @@
 }
 
 .file-drop-area.active {
-  @apply border-primary bg-primary/5;
+  @apply border-[#6C63FF] bg-[#6C63FF]/5;
 }
 
 .security-container {

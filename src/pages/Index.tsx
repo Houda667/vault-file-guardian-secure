@@ -1,10 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import SecurityHeader from '@/components/SecurityHeader';
 import FileUploader from '@/components/FileUploader';
 import PasswordForm from '@/components/PasswordForm';
 import FileProcessor from '@/components/FileProcessor';
-import InformationPanel from '@/components/InformationPanel';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { v4 as uuidv4 } from '@/lib/utils';
@@ -38,18 +36,15 @@ const Index = () => {
     
     try {
       if (mode === 'encrypt') {
-        // Generate a unique ID for the file
         const fileId = uuidv4();
         setCurrentFileId(fileId);
 
-        // Get the current user
         const { data: { user } } = await supabase.auth.getUser();
         
         if (!user) {
           throw new Error("Utilisateur non authentifié");
         }
 
-        // Store file information in Supabase
         const { error: fileError } = await supabase
           .from('encrypted_files')
           .insert({
@@ -65,10 +60,8 @@ const Index = () => {
           throw fileError;
         }
         
-        // Hash the password
         const hashedPassword = await bcrypt.hash(password);
         
-        // Store the hashed password in Supabase
         const { error: passwordError } = await supabase
           .from('encryption_passwords')
           .insert({
@@ -87,7 +80,6 @@ const Index = () => {
           variant: "default"
         });
       } else {
-        // Pour le déchiffrement, nous validerions par rapport aux mots de passe stockés
         toast({
           title: "Fichier déchiffré avec succès",
           description: "Votre fichier a été déchiffré en toute sécurité.",
@@ -95,7 +87,6 @@ const Index = () => {
         });
       }
       
-      // Simuler le temps de traitement
       setTimeout(() => {
         setIsProcessing(false);
         setIsProcessed(true);
@@ -125,46 +116,37 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container py-8 px-4 mx-auto max-w-6xl">
+    <div className="min-h-screen bg-white">
+      <div className="container py-8 px-4 mx-auto max-w-4xl">
         <SecurityHeader />
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          <div className="md:col-span-2 space-y-6">
-            {!selectedFile || isProcessed ? (
-              <FileUploader 
-                onFileSelect={handleFileSelect} 
-                isProcessing={isProcessing} 
-              />
-            ) : (
-              <PasswordForm 
-                onPasswordSubmit={handlePasswordSubmit}
-                isEncrypting={isProcessing && mode === 'encrypt'}
-                isDecrypting={isProcessing && mode === 'decrypt'}
-                mode={mode}
-              />
-            )}
-            
-            <FileProcessor 
-              file={selectedFile}
-              mode={mode}
-              isProcessing={isProcessing}
-              isProcessed={isProcessed}
-              onModeChange={handleModeChange}
-              onReset={handleReset}
+        <div className="space-y-6 max-w-2xl mx-auto">
+          {!selectedFile || isProcessed ? (
+            <FileUploader 
+              onFileSelect={handleFileSelect} 
+              isProcessing={isProcessing} 
             />
-          </div>
+          ) : (
+            <PasswordForm 
+              onPasswordSubmit={handlePasswordSubmit}
+              isEncrypting={isProcessing && mode === 'encrypt'}
+              isDecrypting={isProcessing && mode === 'decrypt'}
+              mode={mode}
+            />
+          )}
           
-          <div className="md:col-span-1">
-            <InformationPanel />
-          </div>
+          <FileProcessor 
+            file={selectedFile}
+            mode={mode}
+            isProcessing={isProcessing}
+            isProcessed={isProcessed}
+            onModeChange={handleModeChange}
+            onReset={handleReset}
+          />
         </div>
         
         <footer className="mt-16 text-center text-sm text-muted-foreground">
           <p>© 2025 Vault File Guardian. Tous les fichiers sont traités en toute sécurité.</p>
-          <p className="mt-1">
-            Pour un stockage sécurisé des mots de passe, vos mots de passe sont stockés en toute sécurité dans la base de données.
-          </p>
         </footer>
       </div>
     </div>
