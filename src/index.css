@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -99,7 +100,7 @@
 }
 
 .file-drop-area.active {
-  @apply border-[#6C63FF] bg-[#6C63FF]/5;
+  @apply border-primary bg-primary/5;
 }
 
 .security-container {
@@ -137,32 +138,3 @@
   @apply bg-secure-warning/20 text-secure-warning animate-pulse;
 }
 
-@layer utilities {
-  .animate-bounce-slow {
-    animation: bounce 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-  
-  .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(-10%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-  }
-  50% {
-    transform: translateY(0);
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: .5;
-  }
-  50% {
-    opacity: .1;
-  }
-}
