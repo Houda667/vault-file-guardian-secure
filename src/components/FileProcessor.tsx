@@ -44,21 +44,11 @@ const FileProcessor: React.FC<FileProcessorProps> = ({
   const handleDownload = () => {
     if (downloadUrl) {
       const link = document.createElement('a');
-      let fileName = file?.name || 'file';
-      
-      // Correct handling of file extensions based on mode
-      if (mode === 'encrypt') {
-        // For encryption, add .enc extension
-        link.download = `${fileName}.enc`;
-      } else {
-        // For decryption, remove .enc extension if it exists
-        if (fileName.toLowerCase().endsWith('.enc')) {
-          fileName = fileName.slice(0, -4);
-        }
-        link.download = fileName;
-      }
+      const fileName = file?.name || 'file';
+      const extension = mode === 'encrypt' ? '.enc' : '.dec';
       
       link.href = downloadUrl;
+      link.download = `${fileName}${extension}`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
